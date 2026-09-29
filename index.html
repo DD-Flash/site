@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DD Flash — Open-source Linux disk imaging utility</title>
+    <meta name="description" content="A simple native Linux tool for writing ISO and IMG images to USB drives.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%235e5c9c'/><text x='16' y='22' font-family='monospace' font-size='14' font-weight='bold' fill='white' text-anchor='middle'>DD</text></svg>">
+</head>
+<body>
+    <div class="theme-toggle-wrapper">
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+            <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="8" cy="8" r="3.5"/>
+                <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"/>
+            </svg>
+            <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M14 8.5A6.5 6.5 0 1 1 7.5 2c.5 0 1 .1 1.4.2A5.5 5.5 0 0 0 13.8 7c.1.5.2.9.2 1.5z"/>
+            </svg>
+        </button>
+    </div>
+
+    <header class="site-header">
+        <nav class="nav container">
+            <a href="#" class="nav-logo">
+                <svg width="20" height="20" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="6" fill="currentColor" fill-opacity="0.1"/>
+                    <text x="16" y="22" font-family="monospace" font-size="13" font-weight="bold" fill="currentColor" text-anchor="middle">DD</text>
+                </svg>
+                <span>DD Flash</span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#security">Security</a>
+                <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+            </div>
+            <a href="#download" class="btn btn-primary btn-sm">Download</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="download">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="hero-label">Open source · Linux</span>
+                    <h1 class="hero-title">Flash Linux images.<br>Without the headache.</h1>
+                    <p class="hero-subtitle">A simple native Linux tool for writing ISO and IMG images to USB drives.</p>
+                    <div class="hero-actions">
+                        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-primary">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            Download
+                        </a>
+                        <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary">
+                            View on GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Main app screenshot -->
+                <div class="hero-screenshot">
+                    <div class="gtk-window">
+                        <div class="gtk-headerbar">
+                            <div class="gtk-headerbar-left">
+                                <span class="gtk-app-title">DD Flash</span>
+                            </div>
+                            <div class="gtk-headerbar-right">
+                                <span class="gtk-window-controls">
+                                    <span class="gtk-btn-minimize"></span>
+                                    <span class="gtk-btn-maximize"></span>
+                                    <span class="gtk-btn-close"></span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="gtk-content">
+                            <div class="gtk-toolbar">
+                                <div class="gtk-toolbar-row">
+                                    <span class="gtk-toolbar-label">Image</span>
+                                    <div class="gtk-file-display">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <path d="M2 2h3l1.5 2H12v8H2V2z"/>
+                                        </svg>
+                                        <span>ubuntu-24.04-desktop-amd64.iso</span>
+                                    </div>
+                                    <button class="gtk-btn gtk-btn-small">Browse…</button>
+                                </div>
+                                <div class="gtk-toolbar-row">
+                                    <span class="gtk-toolbar-label">Device</span>
+                                    <div class="gtk-combo-display">
+                                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
+                                            <rect x="2" y="5" width="10" height="6" rx="1"/>
+                                            <path d="M4 5V3.5M10 5V3.5"/>
+                                        </svg>
+                                        <span>Kingston DataTraveler 3.0 — /dev/sdb (32 GB)</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="gtk-status-area">
+                                <div class="gtk-capacity-bar">
+                                    <div class="gtk-capacity-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="gtk-status-row">
+                                    <span class="gtk-status-text">Ready to flash</span>
+                                    <span class="gtk-status-size">0 B / 32 GB</span>
+                                </div>
+                            </div>
+                            <div class="gtk-action-area">
+                                <button class="gtk-btn gtk-btn-primary gtk-btn-flash">
+                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                        <path d="M8 1L2 9h4v6h4V9h4L8 1z"/>
+                                    </svg>
+                                    Flash USB
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech strip -->
+        <section class="tech-strip">
+            <div class="container">
+                <div class="tech-strip-inner">
+                    <span class="tech-item">GTK4</span>
+                    <span class="tech-separator">·</span>
+                    <span class="tech-item">Libadwaita</span>
+                    <span class="tech-separator">·</span>
+                    <span class="tech-item">Python</span>
+                    <span class="tech-separator">·</span>
+                    <span class="tech-item">Polkit</span>
+                    <span class="tech-separator">·</span>
+                    <span class="tech-item">dd</span>
+                    <span class="tech-separator">·</span>
+                    <span class="tech-item">Linux</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features -->
+        <section class="features" id="features">
+            <div class="container">
+                <h2 class="section-title">One job. Done properly.</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <rect x="2" y="3" width="16" height="12" rx="2"/>
+                                <path d="M6 18h8M10 15v3"/>
+                            </svg>
+                        </div>
+                        <h3>Native Linux</h3>
+                        <p>Built around the Linux desktop instead of being a web wrapper.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M10 2L3 5v5c0 4.4 3 8.4 7 10 4-1.6 7-5.6 7-10V5l-7-3z"/>
+                                <path d="M7 10l2 2 4-4"/>
+                            </svg>
+                        </div>
+                        <h3>Safe by default</h3>
+                        <p>Detect removable drives and prevent obvious mistakes before writing.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <circle cx="10" cy="10" r="8"/>
+                                <path d="M10 6v8M6 10h8"/>
+                            </svg>
+                        </div>
+                        <h3>Open source</h3>
+                        <p>The source code is public and the entire application can be inspected.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="how-it-works" id="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How it works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3>Select an image</h3>
+                            <p>Choose an ISO or IMG file.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3>Choose a drive</h3>
+                            <p>DD Flash detects available removable devices.</p>
+                        </div>
+                    </div>
+                    <div class="step-connector"></div>
+                    <div class="step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3>Flash</h3>
+                            <p>Confirm the target and write the image.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Application showcase -->
+        <section class="showcase">
+            <div class="container">
+                <h2 class="section-title">Application states</h2>
+                <div class="showcase-grid">
+                    <!-- Idle state -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-empty-state">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <rect x="4" y="6" width="24" height="20" rx="2"/>
+                                        <path d="M4 12h24M10 18h12"/>
+                                    </svg>
+                                    <p>No image selected</p>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">Idle</span>
+                    </div>
+
+                    <!-- Image selected -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-toolbar">
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Image</span>
+                                        <div class="gtk-file-display">
+                                            <span>debian-12.5.0-amd64.iso</span>
+                                        </div>
+                                    </div>
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Device</span>
+                                        <div class="gtk-combo-display gtk-combo-empty">
+                                            <span>No device selected</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">Image selected</span>
+                    </div>
+
+                    <!-- USB selected -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-toolbar">
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Image</span>
+                                        <div class="gtk-file-display">
+                                            <span>fedora-40-workstation.iso</span>
+                                        </div>
+                                    </div>
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Device</span>
+                                        <div class="gtk-combo-display">
+                                            <span>SanDisk Ultra — /dev/sdc (16 GB)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gtk-status-area">
+                                    <div class="gtk-status-row">
+                                        <span class="gtk-status-text">Ready to flash</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">USB selected</span>
+                    </div>
+
+                    <!-- Flashing -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-toolbar">
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Image</span>
+                                        <div class="gtk-file-display">
+                                            <span>archlinux-2024.06.01-x86_64.iso</span>
+                                        </div>
+                                    </div>
+                                    <div class="gtk-toolbar-row">
+                                        <span class="gtk-toolbar-label">Device</span>
+                                        <div class="gtk-combo-display">
+                                            <span>Kingston DataTraveler — /dev/sdb (32 GB)</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="gtk-status-area">
+                                    <div class="gtk-capacity-bar">
+                                        <div class="gtk-capacity-fill gtk-progress" style="width: 67%"></div>
+                                    </div>
+                                    <div class="gtk-status-row">
+                                        <span class="gtk-status-text">Writing… 67%</span>
+                                        <span class="gtk-status-size">21.4 GB / 32 GB</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">Flashing</span>
+                    </div>
+
+                    <!-- Completed -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-completion-state">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="16" cy="16" r="14"/>
+                                        <path d="M10 16l4 4 8-8"/>
+                                    </svg>
+                                    <p>Flash complete</p>
+                                    <span class="gtk-completion-detail">Verification passed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">Completed</span>
+                    </div>
+
+                    <!-- Error -->
+                    <div class="showcase-item">
+                        <div class="gtk-window gtk-window-small">
+                            <div class="gtk-headerbar">
+                                <div class="gtk-headerbar-left">
+                                    <span class="gtk-app-title">DD Flash</span>
+                                </div>
+                                <div class="gtk-headerbar-right">
+                                    <span class="gtk-window-controls">
+                                        <span class="gtk-btn-minimize"></span>
+                                        <span class="gtk-btn-maximize"></span>
+                                        <span class="gtk-btn-close"></span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="gtk-content">
+                                <div class="gtk-error-state">
+                                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                        <circle cx="16" cy="16" r="14"/>
+                                        <path d="M16 10v8M16 22v-0.5"/>
+                                    </svg>
+                                    <p>Write failed</p>
+                                    <span class="gtk-error-detail">Device disconnected during operation</span>
+                                </div>
+                            </div>
+                        </div>
+                        <span class="showcase-label">Error</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Security -->
+        <section class="security" id="security">
+            <div class="container">
+                <h2 class="section-title">Designed to make mistakes harder.</h2>
+                <div class="security-content">
+                    <div class="security-points">
+                        <ul class="security-list">
+                            <li>System disks are protected</li>
+                            <li>Removable devices are detected explicitly</li>
+                            <li>The entire target device is clearly shown before writing</li>
+                            <li>Partitions are unmounted before flashing</li>
+                            <li>Privileged operations use Polkit</li>
+                            <li>The application does not need to run as root</li>
+                        </ul>
+                    </div>
+                    <div class="security-dialog">
+                        <div class="gtk-dialog">
+                            <div class="gtk-dialog-header">
+                                <span>Confirm Flash</span>
+                            </div>
+                            <div class="gtk-dialog-content">
+                                <p class="gtk-dialog-warning">Everything on this device will be erased.</p>
+                                <div class="gtk-dialog-device">
+                                    <div class="gtk-dialog-device-name">Kingston DataTraveler</div>
+                                    <div class="gtk-dialog-device-path">/dev/sdb</div>
+                                    <div class="gtk-dialog-device-size">32 GB</div>
+                                </div>
+                            </div>
+                            <div class="gtk-dialog-actions">
+                                <button class="gtk-btn">Cancel</button>
+                                <button class="gtk-btn gtk-btn-destructive">Flash USB</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Terminal -->
+        <section class="terminal-section">
+            <div class="container">
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-dot terminal-dot-red"></span>
+                        <span class="terminal-dot terminal-dot-yellow"></span>
+                        <span class="terminal-dot terminal-dot-green"></span>
+                        <span class="terminal-title">Terminal</span>
+                    </div>
+                    <div class="terminal-body">
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">dd-flash --list-devices</span>
+                        </div>
+                        <div class="terminal-line terminal-output">
+                            /dev/sdb — Kingston DataTraveler 3.0 (32 GB)
+                        </div>
+                        <div class="terminal-line">
+                            <span class="terminal-prompt">$</span>
+                            <span class="terminal-command">dd-flash --version</span>
+                        </div>
+                        <div class="terminal-line terminal-output">
+                            dd-flash 1.2.0
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Philosophy -->
+        <section class="philosophy">
+            <div class="container">
+                <h2 class="philosophy-title">Software should stay out of the way.</h2>
+                <p class="philosophy-text">DD Flash is intentionally small. No account, no cloud service, no unnecessary features. Select an image, choose a drive, and flash it.</p>
+            </div>
+        </section>
+
+        <!-- GitHub CTA -->
+        <section class="github-cta">
+            <div class="container">
+                <h2 class="section-title">Built in the open.</h2>
+                <p class="github-cta-text">Read the source, report an issue, or contribute.</p>
+                <div class="github-cta-actions">
+                    <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-primary">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        View on GitHub
+                    </a>
+                    <a href="https://github.com" target="_blank" rel="noopener" class="btn btn-secondary">
+                        Read the documentation
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="footer-logo">DD Flash</span>
+                    <span class="footer-tagline">Open-source Linux disk imaging utility.</span>
+                </div>
+                <nav class="footer-links">
+                    <a href="https://github.com" target="_blank" rel="noopener">GitHub</a>
+                    <a href="https://github.com" target="_blank" rel="noopener">Documentation</a>
+                    <a href="https://github.com" target="_blank" rel="noopener">Releases</a>
+                    <a href="https://github.com" target="_blank" rel="noopener">Issues</a>
+                </nav>
+            </div>
+            <div class="footer-bottom">
+                <span>GPL-3.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
